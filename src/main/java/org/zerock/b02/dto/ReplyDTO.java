@@ -1,5 +1,7 @@
 package org.zerock.b02.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +16,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ReplyDTO {
     private Long rno;               //댓글번호
+    @NotNull
     private Long bno;               //게시글번호
+    @NotEmpty
     private String replyText;       //댓글내용
+    @NotEmpty
     private String replyer;         //게시자
     private LocalDateTime regDate, modDate; //등록일자,수정일자
 }
