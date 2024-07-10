@@ -25,7 +25,7 @@ public class ReplyRepositoryTests {
         Reply reply = Reply.builder()
                 .board(board)
                 .replyText("댓글2....")
-                .replyer("replyer2")
+                .replyer("replyer1")
                 .build();
 
         Reply result = replyRepository.save(reply);
