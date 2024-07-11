@@ -20,4 +20,9 @@ public class Reply extends BaseEntity {
 
     private String replyText;
     private String replyer;
+
+    //수정 메서드
+    public void changeText(String newText) {
+        this.replyText = newText;
+    }
 }
