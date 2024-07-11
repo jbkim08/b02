@@ -25,7 +25,7 @@ public class ReplyController {
     private final ReplyService replyService;
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String,Long>> register(@Valid @RequestBody ReplyDTO replyDTO,
+    public Map<String,Long> register(@Valid @RequestBody ReplyDTO replyDTO,
                                                      BindingResult bindingResult) throws BindException {
         log.info("Registering new reply: " + replyDTO);
         if (bindingResult.hasErrors()) {
@@ -34,7 +34,7 @@ public class ReplyController {
         Map<String,Long> map = new HashMap<>();
         Long rno = replyService.register(replyDTO);
         map.put("rno", rno);
-        return ResponseEntity.ok(map); //ResponseEntity 는 상태코드와 함께 객체 전달
+        return map;
     }
 
     //get 으로 게시물의 댓글 목록가져옴
@@ -58,6 +58,17 @@ public class ReplyController {
     @DeleteMapping("/{rno}")
     public Map<String,Long> delete(@PathVariable("rno") Long rno) {
         replyService.remove(rno);
+        Map<String,Long> map = new HashMap<>();
+        map.put("rno", rno);
+        return map;
+    }
+
+    //댓글을 수정하기
+    @PutMapping(value = "/{rno}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Long> modify(@PathVariable("rno") Long rno,
+                                    @RequestBody ReplyDTO replyDTO){
+        replyDTO.setRno(rno);
+        replyService.modify(replyDTO);
         Map<String,Long> map = new HashMap<>();
         map.put("rno", rno);
         return map;
