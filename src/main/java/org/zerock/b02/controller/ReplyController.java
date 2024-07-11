@@ -53,4 +53,13 @@ public class ReplyController {
         ReplyDTO replyDTO = replyService.read(rno);
         return replyDTO;
     }
+
+    //댓글 삭제하기 (rno)
+    @DeleteMapping("/{rno}")
+    public Map<String,Long> delete(@PathVariable("rno") Long rno) {
+        replyService.remove(rno);
+        Map<String,Long> map = new HashMap<>();
+        map.put("rno", rno);
+        return map;
+    }
 }
