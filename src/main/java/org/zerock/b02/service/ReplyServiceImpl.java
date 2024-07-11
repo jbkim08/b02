@@ -1,12 +1,14 @@
 package org.zerock.b02.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.zerock.b02.domain.Board;
 import org.zerock.b02.domain.Reply;
 import org.zerock.b02.dto.PageRequestDTO;
 import org.zerock.b02.dto.PageResponseDTO;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class ReplyServiceImpl implements ReplyService{
 
     private final ReplyRepository replyRepository;
@@ -26,7 +29,14 @@ public class ReplyServiceImpl implements ReplyService{
 
     @Override
     public Long register(ReplyDTO replyDTO) {
-        Reply reply = modelMapper.map(replyDTO, Reply.class);
+        //Reply reply = modelMapper.map(replyDTO, Reply.class);
+        //log.info(reply);
+        Board board = Board.builder().bno(replyDTO.getBno()).build();
+        Reply reply = Reply.builder()
+                .board(board)
+                .replyText(replyDTO.getReplyText())
+                .replyer(replyDTO.getReplyer())
+                .build();
         Long rno = replyRepository.save(reply).getRno();
         return rno;
     }
