@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "Reply", indexes = {@Index(name = "idx_reply_board_bno", columnList = "board_bno")})
 @Getter
 @Builder
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public class Reply extends BaseEntity {
     private Long rno;
     //댓글여러개 > 게시글 1개
     @ManyToOne(fetch = FetchType.LAZY)
-    private Board board; //게시글 참조
+    private Board board; //게시글 참조 (board_bno)
 
     private String replyText;
     private String replyer;
