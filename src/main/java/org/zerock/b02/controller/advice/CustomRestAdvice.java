@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 @Log4j2
@@ -41,6 +42,16 @@ public class CustomRestAdvice {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("time", ""+System.currentTimeMillis());
         errorMap.put("msg", "FK violation");
+        return ResponseEntity.badRequest().body(errorMap);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
+    public ResponseEntity<Map<String, String>> handleNoSuchElement(Exception e) {
+        log.error(e);
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("time", ""+System.currentTimeMillis());
+        errorMap.put("msg", "No Such Element");
         return ResponseEntity.badRequest().body(errorMap);
     }
 }

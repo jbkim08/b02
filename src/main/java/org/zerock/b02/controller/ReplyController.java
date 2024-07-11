@@ -46,4 +46,11 @@ public class ReplyController {
 
         return responseDTO;
     }
+
+    //특정 댓글조회
+    @GetMapping("/{rno}")
+    public ReplyDTO getReplyDTO(@PathVariable("rno") Long rno) {
+        ReplyDTO replyDTO = replyService.read(rno);
+        return replyDTO;
+    }
 }
