@@ -32,8 +32,10 @@ public class ReplyController {
             throw new BindException(bindingResult);
         }
         Map<String,Long> map = new HashMap<>();
+
         Long rno = replyService.register(replyDTO);
         map.put("rno", rno);
+
         return map;
     }
 
