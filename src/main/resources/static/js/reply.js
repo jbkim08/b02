@@ -26,3 +26,9 @@ async function modifyReply(replyOjb) {
         await axios.put(`/replies/${replyOjb.rno}`, replyOjb);
     return result.data
 }
+//댓글 삭제
+async function removeReply(rno) {
+    const result =
+        await axios.delete(`/replies/${rno}`);
+    return result.data
+}
