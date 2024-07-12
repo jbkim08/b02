@@ -90,8 +90,8 @@
 <script layout:fragment="script" th:inline="javascript">
     const bno = [[${dto.bno}]]
 
-    //댓글목록 태그 선택
-    const replyList = document.querySelector('.replyList')
+    const replyList = document.querySelector('.replyList') //댓글목록 태그 선택
+    const replyPaging = document.querySelector('.replyPaging') //페이지네이션 선택
 
     //댓글을 출력하는 함수
     function  printList(dtoList){
@@ -109,10 +109,31 @@
         replyList.innerHTML = str // 댓글리스트 아이템들을 반복문으로 붙인 문자열을 추가한다.
     }
 
+    //페이지네이션 하는 함수
+    function printPages(data){
+        let pageStr = '';
+
+        if(data.prev) { //이전 버튼이 있는경우
+            pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.start-1}">PREV</a></li>`
+        }
+        //중간 페이지번호 링크
+        for(let i = data.start; i <= data.end; i++){
+            pageStr +=`<li class="page-item ${i == data.page?"active":""} "><a class="page-link" data-page="${i}">${i}</a></li>`
+        }
+
+        if(data.next) { //다음 버튼이 있는경우
+            pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.end +1}">NEXT</a></li>`
+        }
+        replyPaging.innerHTML = pageStr
+    }
+
+
     function printReplies(page, size, goLast) {
 
         getList({bno, page, size, goLast})
-            .then(data => printList(data.dtoList))
+            .then(data => {
+                printList(data.dtoList)
+                printPages(data) })
             .catch(err => console.log(err))
     }
 
