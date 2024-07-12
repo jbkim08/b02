@@ -183,6 +183,23 @@
     closeRegisterBtn.addEventListener("click", function (e){
         registerModal.hide()
     },false)
+    //댓글 등록하기
+    registerBtn.addEventListener("click", function(e){
+        const replyObj = {
+            bno:bno,
+            replyText:replyText.value,
+            replyer:replyer.value}
+
+        addReply(replyObj).then(result => {
+            alert(result.rno)
+            registerModal.hide()
+            replyText.value = ''
+            replyer.value =''
+            printReplies(1,10, true) //댓글 목록 갱신
+        }).catch(e => {
+            alert("Exception...")
+        })
+    }, false)
 
 
 </script>
