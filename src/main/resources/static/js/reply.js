@@ -9,3 +9,9 @@ async function getList({bno, page, size, goLast}){
 
     return result.data
 }
+
+//댓글 추가하기
+async function addReply(replyOjb) {
+    const result = await axios.post(`/replies/`, replyOjb);
+    return result.data
+}
