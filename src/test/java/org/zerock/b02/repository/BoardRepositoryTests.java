@@ -1,5 +1,6 @@
 package org.zerock.b02.repository;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,6 +136,19 @@ public class BoardRepositoryTests {
         }
 
         boardRepository.save(board);
+    }
+
+    @Test
+    @Transactional
+    public void testReadWithImages(){
+
+        Optional<Board> result = boardRepository.findById(1L);
+
+        Board board = result.orElseThrow();
+
+        log.info(board.toString());
+        log.info("--------------------------");
+        log.info(board.getImageSet()); //Lazy 로딩은 현재 board 에서 image 리스트를 필요로 할때 검색함.
     }
 
 
