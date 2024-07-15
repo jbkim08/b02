@@ -17,9 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @Log4j2
@@ -72,6 +70,29 @@ public class UpDownController {
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().headers(headers).body(resource);
+    }
+
+    //첨부파일 삭제
+    @DeleteMapping("/remove/{fileName}")
+    public Map<String, Boolean> removeFile(@PathVariable String fileName) {
+        Resource resource = new FileSystemResource(uploadPath+File.separator+fileName);
+        String resourceName = resource.getFilename();
+        Map<String, Boolean> resultMap = new HashMap<>();
+        boolean removed = false;
+
+        try {
+            String contentType = Files.probeContentType(resource.getFile().toPath());
+            removed = resource.getFile().delete(); //파일 삭제후 true 리턴
+            //섬네일도 있다면
+            if(contentType.startsWith("image")){
+                File thumbnailFile = new File(uploadPath+File.separator+"s_"+fileName);
+                thumbnailFile.delete(); //섬네일 파일도 삭제
+            }
+        } catch (Exception e){
+            log.error(e.getMessage());
+        }
+        resultMap.put("removed", removed);
+        return resultMap;
     }
 }
 
