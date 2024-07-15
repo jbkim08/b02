@@ -3,7 +3,11 @@ package org.zerock.b02.controller;
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.zerock.b02.dto.upload.UploadFileDTO;
 import org.zerock.b02.dto.upload.UploadResultDTO;
@@ -54,4 +58,20 @@ public class UpDownController {
         }
         return null;
     }
+
+    @GetMapping("/view/{fileName}")
+    public ResponseEntity<Resource> viewFileGet(@PathVariable String fileName) {
+        Resource resource = new FileSystemResource(uploadPath+File.separator+fileName);
+
+        String resourceName = resource.getFilename();
+        HttpHeaders headers = new HttpHeaders();
+
+        try {
+            headers.add("Content-Type", Files.probeContentType(resource.getFile().toPath()));
+        } catch (Exception e){
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok().headers(headers).body(resource);
+    }
 }
+
