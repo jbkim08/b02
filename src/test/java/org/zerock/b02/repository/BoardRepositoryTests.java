@@ -14,6 +14,7 @@ import org.zerock.b02.repository.BoardRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @SpringBootTest
 @Log4j2
@@ -120,6 +121,21 @@ public class BoardRepositoryTests {
         result.getContent().forEach(board -> log.info(board.toString()));
     }
 
+    @Test
+    public void testInsertWithImages(){
+        //게시글 객체를 빌더로 만들기
+        Board board = Board.builder()
+                .title("Image Test")
+                .content("첨부파일 테스트")
+                .writer("tester")
+                .build();
+        //이미지 리스트에 이미지 추가
+        for (int i = 0; i < 3; i++) {
+            board.addImage(UUID.randomUUID().toString(), "file"+i+".jpg");
+        }
+
+        boardRepository.save(board);
+    }
 
 
 }
