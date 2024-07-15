@@ -178,4 +178,23 @@ public class BoardRepositoryTests {
         boardRepository.deleteById(bno);
     }
 
+    @Test
+    public void testInsertAll(){
+        //100개의 게시글을 테스트 입력
+        for (int i = 1; i <= 100; i++) {
+            Board board = Board.builder()
+                    .title("제목.." + i)
+                    .content("내용..."+i)
+                    .writer("유저.."+i)
+                    .build();
+            for (int j = 0; j < 3; j++) { //이미지도 3개씩 입력한다.
+                if (i % 5 == 0) {
+                    continue; //5번째 게시글은 이미지 입력 안함
+                }
+                board.addImage(UUID.randomUUID().toString(), "file"+i+".jpg");
+            }
+            boardRepository.save(board);
+        }
+    }
+
 }
