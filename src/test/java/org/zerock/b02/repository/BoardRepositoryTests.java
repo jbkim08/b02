@@ -139,10 +139,9 @@ public class BoardRepositoryTests {
     }
 
     @Test
-    @Transactional
     public void testReadWithImages(){
 
-        Optional<Board> result = boardRepository.findById(1L);
+        Optional<Board> result = boardRepository.findByIdWithImages(1L);
 
         Board board = result.orElseThrow();
 
