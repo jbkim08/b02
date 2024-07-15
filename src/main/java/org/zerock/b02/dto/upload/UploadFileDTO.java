@@ -1,4 +1,4 @@
-package org.zerock.b02.dto;
+package org.zerock.b02.dto.upload;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
