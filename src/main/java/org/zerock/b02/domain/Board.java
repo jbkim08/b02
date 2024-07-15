@@ -28,7 +28,10 @@ public class Board extends BaseEntity {
     @Column(length = 50, nullable = false)
     private String writer;  //글쓴이
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true )
     @Builder.Default
     private Set<BoardImage> imageSet = new HashSet<>(); //중복안되는 이미지객체 리스트
 

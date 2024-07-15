@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 import org.zerock.b02.domain.Board;
 import org.zerock.b02.dto.BoardListReplyCountDTO;
 import org.zerock.b02.repository.BoardRepository;
@@ -23,6 +24,9 @@ public class BoardRepositoryTests {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private ReplyRepository replyRepository;
 
     //@Test
     public void testInsert() {
@@ -150,5 +154,28 @@ public class BoardRepositoryTests {
         log.info(board.getImageSet()); //Lazy 로딩은 현재 board 에서 image 리스트를 필요로 할때 검색함.
     }
 
+    @Transactional
+    @Commit
+    @Test
+    public void testModifyImages(){
+        //글번호로 게시글을 가져와서 첨부파일을 전체 삭제하고 새로 첨부파일을 입력
+        Optional<Board> result = boardRepository.findByIdWithImages(1L);
+        Board board = result.orElseThrow();
+        board.clearImages(); //첨부파일 삭제
+        for (int i = 0; i < 2; i++) {
+            board.addImage(UUID.randomUUID().toString(), "file"+i+".jpg");
+        }
+        boardRepository.save(board);
+    }
+
+    @Test
+    @Transactional
+    @Commit
+    public void testRemoveAll(){
+        //게시글을 삭제하기전 해당 댓글들을 먼저 삭제하고 삭제함
+        Long bno = 1L;
+        replyRepository.deleteByBoard_Bno(bno);
+        boardRepository.deleteById(bno);
+    }
 
 }
