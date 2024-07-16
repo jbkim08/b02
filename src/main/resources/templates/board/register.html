@@ -147,4 +147,10 @@
         uploadResult.innerHTML += str
     }
 
+    function removeFile(uuid, fileName, obj){
+        const targetDiv = obj.closest(".card")
+        //화면에 보이는 card 이미지를 삭제하고 서버에 업로드 된 파일도 삭제
+        removeFileToServer(uuid, fileName).then(data => targetDiv.remove())
+    }
+
 </script>
