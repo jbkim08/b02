@@ -154,6 +154,28 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
         JPQLQuery<Board> boardJPQLQuery = from(board); //select * from board
         boardJPQLQuery.leftJoin(reply).on(reply.board.eq(board));// 왼쪽 조인 게시글이 같을때 댓글
+        // 조건 검색
+        if( (types != null && types.length > 0) && keyword != null ){ //검색 조건과 키워드가 있다면
+
+            BooleanBuilder booleanBuilder = new BooleanBuilder(); // (
+
+            for(String type: types){
+
+                switch (type){
+                    case "t":  //제목
+                        booleanBuilder.or(board.title.contains(keyword));
+                        break;
+                    case "c":  //내용
+                        booleanBuilder.or(board.content.contains(keyword));
+                        break;
+                    case "w":  //글쓴이
+                        booleanBuilder.or(board.writer.contains(keyword));
+                        break;
+                }
+            }//end for
+            boardJPQLQuery.where(booleanBuilder);
+        }//end if
+
         // 게시글 그룹
         boardJPQLQuery.groupBy(board);
         //페이징 적용
