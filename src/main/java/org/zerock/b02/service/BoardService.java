@@ -1,5 +1,6 @@
 package org.zerock.b02.service;
 
+import org.zerock.b02.domain.Board;
 import org.zerock.b02.dto.*;
 
 public interface BoardService {
@@ -19,5 +20,24 @@ public interface BoardService {
 
     //댓글갯수 , 이미지 포함
     PageResponseDTO<BoardListAllDTO> listWithAll(PageRequestDTO pageRequestDTO);
+
+    //디폴트 메소드 추가 (디폴트 메소드는 추상메서드가 아니라 구현가능)
+    default Board dtoToEntity(BoardDTO boardDTO) {
+
+        Board board = Board.builder()
+                .bno(boardDTO.getBno())
+                .title(boardDTO.getTitle())
+                .content(boardDTO.getContent())
+                .writer(boardDTO.getWriter())
+                .build();
+
+        if(boardDTO.getFileNames() != null){
+            boardDTO.getFileNames().forEach(fileName -> {
+                String[] arr = fileName.split("_");
+                board.addImage(arr[0], arr[1]);
+            });
+        }
+        return board;
+    }
 }
 

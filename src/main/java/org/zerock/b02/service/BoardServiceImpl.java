@@ -27,7 +27,9 @@ public class BoardServiceImpl implements BoardService{
     //새 게시글 등록 메서드 리턴(글번호)
     @Override
     public Long register(BoardDTO boardDTO) {
-        Board board = modelMapper.map(boardDTO, Board.class);
+
+        Board board = dtoToEntity(boardDTO);
+
         Long bno = boardRepository.save(board).getBno();
 
         return bno;
