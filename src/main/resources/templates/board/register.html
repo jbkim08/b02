@@ -110,4 +110,21 @@
         uploadModal.show();
     })
 
+    // 업로드 버튼
+    document.querySelector(".uploadBtn").addEventListener("click", function (e){
+        const formObj = new FormData();
+        const fileInput = document.querySelector("input[name='files']")
+        console.log(fileInput.files)
+        const files = fileInput.files;
+        for (let i = 0; i < files.length; i++) {
+            formObj.append("files",files[i]);
+        }
+
+        uploadToServer(formObj).then(result => {
+            console.log(result)
+            uploadModal.hide()
+        }).catch(e=>uploadModal.hide())
+
+    })
+
 </script>
