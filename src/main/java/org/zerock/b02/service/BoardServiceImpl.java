@@ -35,13 +35,13 @@ public class BoardServiceImpl implements BoardService{
         return bno;
     }
 
+    //이미지가 포함된 게시물 조회
     @Override
     public BoardDTO readOne(Long bno) {
-        Optional<Board> result = boardRepository.findById(bno);
+        Optional<Board> result = boardRepository.findByIdWithImages(bno);
         Board board = result.orElseThrow();
-        BoardDTO dto = modelMapper.map(board, BoardDTO.class);
-
-        return dto;
+        BoardDTO boardDTO = entityToDto(board);
+        return boardDTO;
     }
 
     @Override
