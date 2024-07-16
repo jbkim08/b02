@@ -4,12 +4,11 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.zerock.b02.dto.BoardDTO;
-import org.zerock.b02.dto.PageRequestDTO;
-import org.zerock.b02.dto.PageResponseDTO;
+import org.zerock.b02.dto.*;
 import org.zerock.b02.service.BoardService;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
@@ -102,4 +101,25 @@ public class BoardServiceTests {
         boardService.remove(bno);
     }
 
+    @Test
+    public void testListWithAll(){
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1).size(10).build();
+
+        PageResponseDTO<BoardListAllDTO> responseDTO =
+                boardService.listWithAll(pageRequestDTO);
+
+        List<BoardListAllDTO> dtoList = responseDTO.getDtoList();
+
+        dtoList.forEach(boardListAllDTO -> {
+            log.info(boardListAllDTO.getBno()+":"+boardListAllDTO.getTitle());
+
+            if(boardListAllDTO.getBoardImages() != null){
+                for(BoardImageDTO boardImage : boardListAllDTO.getBoardImages()) {
+                    log.info(boardImage);
+                }
+            }
+            log.info("-----------------------------------------");
+        });
+    }
 }
