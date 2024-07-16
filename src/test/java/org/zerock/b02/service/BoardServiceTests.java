@@ -43,6 +43,8 @@ public class BoardServiceTests {
                 .title("수정 타이틀...")
                 .content("수정 내용...")
                 .build();
+        //첨부파일 하나 추가
+        boardDTO.setFileNames(Arrays.asList(UUID.randomUUID()+"_zzz.jpg"));
 
         boardService.modify(boardDTO);
     }
