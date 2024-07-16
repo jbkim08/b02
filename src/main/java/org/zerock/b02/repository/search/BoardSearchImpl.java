@@ -175,6 +175,15 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
                     .replyCount(replyCount)
                     .build();
             //이미지처리부분
+            List<BoardImageDTO> imageDTOS = board1.getImageSet().stream().sorted()
+                    .map(boardImage -> BoardImageDTO.builder()
+                            .uuid(boardImage.getUuid())
+                            .fileName(boardImage.getFileName())
+                            .ord(boardImage.getOrd())
+                            .build()
+                    ).collect(Collectors.toList());
+
+            dto.setBoardImages(imageDTOS); //처리된 이미지들을 추가
 
             return dto;
         }).collect(Collectors.toList());
