@@ -132,19 +132,45 @@
     }
 
     const link = [[${pageRequestDTO.getLink()}]]
-    console.log(link)
+    //console.log(link)
     const formObj = document.querySelector("#f1")
 
+    //최종 수정하기 버튼 클릭
     document.querySelector(".modBtn").addEventListener("click", function(e){
         e.preventDefault()
         e.stopPropagation()
 
         formObj.action = `/board/modify?${link}`
+        //첨부파일을 히든 입력으로 추가해 놓기
+        appendFileData();
+        //삭제한 첨부파일들을 서버에서 삭제하기
+        callRemoveFiles()
+
         formObj.method ='post'
         formObj.submit()
 
-
     }, false)
+
+    function appendFileData(){
+        const target = document.querySelector(".uploadHidden")
+        const uploadFiles = uploadResult.querySelectorAll("img");
+        let str = ''
+        for (let i = 0; i < uploadFiles.length; i++) {
+            const uploadFile = uploadFiles[i]
+            const imgLink = uploadFile.getAttribute("data-src")
+
+            str += `<input type="hidden">`
+        }
+        target.innerHTML = str;
+    }
+
+    function callRemoveFiles(){
+
+        removeFileList.forEach( ({uuid,fileName}) => {
+            removeFileToServer({uuid, fileName})
+        })
+    }
+
 
 
     document.querySelector(".removeBtn").addEventListener("click", function(e){
