@@ -159,7 +159,7 @@
             const uploadFile = uploadFiles[i]
             const imgLink = uploadFile.getAttribute("data-src")
 
-            str += `<input type="hidden">`
+            str += `<input type="hidden" name="fileNames" value="${imgLink}">`
         }
         target.innerHTML = str;
     }
