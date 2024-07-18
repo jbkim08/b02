@@ -167,7 +167,7 @@
     function callRemoveFiles(){
 
         removeFileList.forEach( ({uuid,fileName}) => {
-            removeFileToServer({uuid, fileName})
+            removeFileToServer(uuid, fileName)
         })
     }
 
