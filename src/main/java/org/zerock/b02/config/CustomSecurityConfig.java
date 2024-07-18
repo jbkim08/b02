@@ -27,7 +27,7 @@ public class CustomSecurityConfig {
         log.info("----------------configure-----------------");
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(formLogin -> {});
+                .formLogin(formLogin -> formLogin.loginPage("/member/login"));
 
         return http.build();
     }
