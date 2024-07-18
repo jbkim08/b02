@@ -11,9 +11,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
     //생성자 주입으로 등록된 암호화객체를 주입
-    //private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     //시큐리티 인증에서 로그인하는 메소드
     @Override
@@ -22,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         //메모리 인증
         UserDetails userDetails = User.builder()
                 .username("user1")
-                .password("1234")
+                .password(passwordEncoder.encode("1234"))
                 .authorities("ROLE_USER")
                 .build();
         return userDetails;

@@ -26,11 +26,7 @@ public class CustomSecurityConfig {
 
     private final DataSource dataSource;
     private final CustomUserDetailsService  userDetailsService;
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); //패스워드 암호화 객체 등록
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
