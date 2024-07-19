@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -27,7 +28,7 @@ public class Member extends BaseEntity {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
-    private Set<MemberRole> roleSet;
+    private Set<MemberRole> roleSet = new HashSet<>();
 
     public  void changePassword(String password) {
         this.mpw = password;
