@@ -36,7 +36,7 @@ public class Member extends BaseEntity {
     public void changeEmail(String email) {
         this.email = email;
     }
-    public void changeDel(String del) {
+    public void changeDel(boolean del) {
         this.del = del;
     }
     public void addRole(MemberRole role) {
