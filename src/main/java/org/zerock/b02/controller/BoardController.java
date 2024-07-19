@@ -74,6 +74,8 @@ public class BoardController {
         model.addAttribute("dto", boardDTO);
     }
 
+    //현재 인증유저가 글쓴이와 같은 경우에만 수정처리
+    @PreAuthorize("principal.username == #boardDTO.writer")
     @PostMapping("/modify")
     public String modify(PageRequestDTO pageRequestDTO,
                          @Valid BoardDTO boardDTO,
