@@ -99,6 +99,7 @@ public class BoardController {
         return "redirect:/board/read?"+link; //수정후 읽기 페이지로 이동
     }
 
+    @PreAuthorize("principal.username == #boardDTO.writer")
     @PostMapping("/remove")
     public String remove(BoardDTO boardDTO, RedirectAttributes redirectAttributes) {
         Long bno = boardDTO.getBno();
