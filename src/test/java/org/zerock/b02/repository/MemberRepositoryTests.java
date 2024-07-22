@@ -21,7 +21,7 @@ public class MemberRepositoryTests {
 
     @Test
     public void insertMembers(){
-        //총 100명의 유저 생성하여 추가하기
+        //총 1~99명의 유저 생성하여 추가하기
         IntStream.range(1, 100).forEach(i -> {
             Member member = Member.builder()
                     .mid("member"+i)

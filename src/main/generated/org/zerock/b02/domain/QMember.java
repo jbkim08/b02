@@ -22,7 +22,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
-    public final StringPath del = createString("del");
+    public final BooleanPath del = createBoolean("del");
 
     public final StringPath email = createString("email");
 
