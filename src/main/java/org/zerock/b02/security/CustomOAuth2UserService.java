@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Service
@@ -29,10 +30,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         Map<String, Object> paramMap = oAuth2User.getAttributes();
 
-        paramMap.forEach((k,v)->{
-            log.info("---------------------");
-            log.info(k + ":" + v);
-        });
+        String email = null;
+        switch (clientName){
+            case "kakao":
+                email = getKakaoEmail(paramMap);
+                break;
+        }
+        log.info("============================================");
+        log.info("Email: " + email);
+        log.info("============================================");
         return oAuth2User;
+    }
+
+    private String getKakaoEmail(Map<String, Object> paramMap) {
+        Object value = paramMap.get("kakao_account");
+        LinkedHashMap accountMap = (LinkedHashMap)value;
+        String email = (String)accountMap.get("email");
+        return email;
     }
 }
