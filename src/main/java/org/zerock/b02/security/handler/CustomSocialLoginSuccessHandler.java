@@ -25,7 +25,7 @@ public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHan
 
         String encodedPW = memberSecurityDTO.getMpw();
         //소셜로 가입하고 비번이 1234와 같으면 (처음 가입시)
-        if(memberSecurityDTO.isSocial() && encodedPW.equals("1234")) {
+        if(memberSecurityDTO.isSocial() && passwordEncoder.matches("1234", encodedPW)) {
             log.info("비밀번호 바꾸세요!");
             log.info("Redirect to Member Modify");
             response.sendRedirect("/member/modify");
