@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Commit;
 import org.zerock.b02.domain.Member;
 import org.zerock.b02.domain.MemberRole;
 
@@ -49,6 +50,16 @@ public class MemberRepositoryTests {
         log.info(member.getRoleSet());
 
         member.getRoleSet().forEach(role -> log.info(role));
+    }
+
+    //비번 업데이트
+    @Commit
+    @Test
+    public void testUpdate(){
+        String mid = "drv98@naver.com";
+        String mpw = passwordEncoder.encode("5678"); //수정할 패스워드
+
+        memberRepository.updatePassword(mpw, mid);
     }
 }
 
